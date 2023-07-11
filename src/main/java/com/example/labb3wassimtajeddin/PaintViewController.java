@@ -5,14 +5,18 @@ import javafx.event.ActionEvent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.lang.reflect.Field;
 
 public class PaintViewController {
+
     PaintModel paintModel = new PaintModel();
     public Canvas canvas;
     public Button circleButton;
@@ -21,7 +25,8 @@ public class PaintViewController {
     public Button undoButton;
     public GraphicsContext graphicsContext;
     public Stage stage;
-
+    public ColorPicker colorPicker;
+    public TextField sizeField;
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -31,10 +36,9 @@ public class PaintViewController {
 
 }
     public void onCanvasClicked(MouseEvent mouseEvent) {
-     graphicsContext.setFill(Color.BLACK);
-     graphicsContext.fillRect(mouseEvent.getSceneX(), mouseEvent.getY(), 100,100);
-//     graphicsContext.fillOval(mouseEvent.getSceneX(),mouseEvent.getSceneY(),100,100);
-
+        graphicsContext.setFill(Color.BLACK);
+        graphicsContext.fillOval(mouseEvent.getSceneX(),mouseEvent.getSceneY(),100,100);
+        graphicsContext.fillRect(mouseEvent.getSceneX(), mouseEvent.getY(), 100,100);
     }
 
     public void onCircleAction(ActionEvent actionEvent) {
@@ -42,6 +46,7 @@ public class PaintViewController {
     }
 
     public void onRectangleAction(ActionEvent actionEvent) {
+
     }
 
     public void onSaveAction(ActionEvent actionEvent) {
@@ -56,4 +61,12 @@ public class PaintViewController {
 
     public void onUndoAction(ActionEvent actionEvent) {
     }
+
+    public void onColorAction(ActionEvent actionEvent) {
+
+    }
+
+    public void onSizeAction(ActionEvent actionEvent) {
+   // double size = double.parseDouble(sizeField.getText())
+        }
 }
