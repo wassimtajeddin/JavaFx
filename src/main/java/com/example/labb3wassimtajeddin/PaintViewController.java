@@ -35,10 +35,12 @@ public class PaintViewController {
     graphicsContext = canvas.getGraphicsContext2D();
 
 }
+
     public void onCanvasClicked(MouseEvent mouseEvent) {
-        graphicsContext.setFill(Color.BLACK);
-        graphicsContext.fillOval(mouseEvent.getSceneX(),mouseEvent.getSceneY(),100,100);
-        graphicsContext.fillRect(mouseEvent.getSceneX(), mouseEvent.getY(), 100,100);
+        double size = Double.parseDouble(sizeField.getText());
+        graphicsContext.setFill(colorPicker.getValue());
+        graphicsContext.fillOval(mouseEvent.getSceneX(),mouseEvent.getSceneY(),size,size);
+       // graphicsContext.fillRect(mouseEvent.getSceneX(), mouseEvent.getY(), size,size);
     }
 
     public void onCircleAction(ActionEvent actionEvent) {
@@ -67,6 +69,5 @@ public class PaintViewController {
     }
 
     public void onSizeAction(ActionEvent actionEvent) {
-   // double size = double.parseDouble(sizeField.getText())
         }
 }
