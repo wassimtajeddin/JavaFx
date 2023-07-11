@@ -27,6 +27,8 @@ public class PaintViewController {
     public Stage stage;
     public ColorPicker colorPicker;
     public TextField sizeField;
+
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -37,10 +39,20 @@ public class PaintViewController {
 }
 
     public void onCanvasClicked(MouseEvent mouseEvent) {
-        double size = Double.parseDouble(sizeField.getText());
+        double size;
+        if (sizeField.getText().isEmpty())
+            size = 100;
+        else
+            size = Double.parseDouble(sizeField.getText());
         graphicsContext.setFill(colorPicker.getValue());
-        graphicsContext.fillOval(mouseEvent.getSceneX(),mouseEvent.getSceneY(),size,size);
-       // graphicsContext.fillRect(mouseEvent.getSceneX(), mouseEvent.getY(), size,size);
+        if (circleButton.isPressed()) {
+            graphicsContext.fillOval(mouseEvent.getSceneX(),mouseEvent.getSceneY(),size,size);
+        }
+
+        else if (rectangleButton.isPressed()) {
+            graphicsContext.fillRect(mouseEvent.getSceneX(), mouseEvent.getY(), size, size);
+        }
+
     }
 
     public void onCircleAction(ActionEvent actionEvent) {
