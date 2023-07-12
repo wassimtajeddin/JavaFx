@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane prefHeight="445.0" prefWidth="663.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.labb3wassimtajeddin.PaintViewController">
+<BorderPane prefHeight="445.0" prefWidth="663.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.labb3wassimtajeddin.PaintViewController">
     <BorderPane prefHeight="445.0" prefWidth="663.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
         <right>
             <VBox BorderPane.alignment="CENTER">
@@ -23,7 +23,7 @@
         </right>
       <top>
             <HBox spacing="10.0" BorderPane.alignment="CENTER">
-                <Button fx:id="circleButton" lineSpacing="1.0" mnemonicParsing="false" onAction="#onCircleAction" text="Circle">
+                <Button fx:id="circleButton" lineSpacing="1.0" mnemonicParsing="false" text="Circle">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
@@ -31,12 +31,12 @@
                   <Insets left="5.0" top="5.0" />
                </HBox.margin>
             </Button>
-                <Button fx:id="rectangleButton" lineSpacing="1.0" mnemonicParsing="false" onAction="#onRectangleAction" text="Rectangle">
+                <Button fx:id="rectangleButton" lineSpacing="1.0" mnemonicParsing="false" text="Rectangle">
                <HBox.margin>
                   <Insets top="5.0" />
                </HBox.margin>
             </Button>
-            <ColorPicker fx:id="colorPicker" onAction="#onColorAction">
+            <ColorPicker fx:id="colorPicker" >
                <HBox.margin>
                   <Insets top="5.0" />
                </HBox.margin>
@@ -44,7 +44,7 @@
                   <Color />
                </value>
             </ColorPicker>
-            <TextField fx:id="sizeField" onAction="#onSizeAction" promptText="size">
+            <TextField fx:id="sizeField" promptText="size">
                <HBox.margin>
                   <Insets top="5.0" />
                </HBox.margin>
@@ -59,4 +59,4 @@
       </cursor>
     </BorderPane>
 
-</AnchorPane>
+</BorderPane>

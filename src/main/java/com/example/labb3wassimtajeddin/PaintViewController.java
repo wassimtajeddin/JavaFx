@@ -8,12 +8,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import java.io.File;
-import java.lang.reflect.Field;
 
 public class PaintViewController {
 
@@ -45,21 +42,14 @@ public class PaintViewController {
         else
             size = Double.parseDouble(sizeField.getText());
         graphicsContext.setFill(colorPicker.getValue());
-        if (circleButton.isPressed()) {
+        if (circleButton.isFocused()) {
             graphicsContext.fillOval(mouseEvent.getSceneX(),mouseEvent.getSceneY(),size,size);
         }
 
-        else if (rectangleButton.isPressed()) {
+        else if (rectangleButton.isFocused()) {
             graphicsContext.fillRect(mouseEvent.getSceneX(), mouseEvent.getY(), size, size);
         }
 
-    }
-
-    public void onCircleAction(ActionEvent actionEvent) {
-
-    }
-
-    public void onRectangleAction(ActionEvent actionEvent) {
 
     }
 
@@ -75,11 +65,4 @@ public class PaintViewController {
 
     public void onUndoAction(ActionEvent actionEvent) {
     }
-
-    public void onColorAction(ActionEvent actionEvent) {
-
-    }
-
-    public void onSizeAction(ActionEvent actionEvent) {
-        }
 }
