@@ -3,7 +3,6 @@ package com.example.labb3wassimtajeddin;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.WritableImage;
-import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -14,11 +13,10 @@ import java.io.Writer;
 
 public class SVGSaver {
 
+
     public void start(Stage primaryStage) {
-        // Create a JavaFX scene with some content
         Group root = new Group();
         Scene scene = new Scene(root, 50, 50);
-        scene.setFill(Color.WHITE);
 
         // ... Add your JavaFX content to the scene ...
 
