@@ -10,16 +10,7 @@
 <BorderPane prefHeight="445.0" prefWidth="663.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.labb3wassimtajeddin.PaintViewController">
     <BorderPane prefHeight="445.0" prefWidth="663.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
         <right>
-            <VBox BorderPane.alignment="CENTER">
-                <Button fx:id="saveButton" mnemonicParsing="false" onAction="#onSaveAction" prefHeight="10.0" prefWidth="52.0" text="Save">
-               <VBox.margin>
-                  <Insets right="5.0" />
-               </VBox.margin></Button>
-                <Button fx:id="undoButton" mnemonicParsing="false" onAction="#onUndoAction" prefHeight="25.0" prefWidth="52.0" text="Undo">
-               <VBox.margin>
-                  <Insets right="5.0" top="5.0" />
-               </VBox.margin></Button>
-            </VBox>
+            <VBox BorderPane.alignment="CENTER" />
         </right>
       <top>
             <HBox spacing="10.0" BorderPane.alignment="CENTER">
@@ -36,7 +27,7 @@
                   <Insets top="5.0" />
                </HBox.margin>
             </Button>
-            <ColorPicker fx:id="colorPicker" >
+            <ColorPicker fx:id="colorPicker">
                <HBox.margin>
                   <Insets top="5.0" />
                </HBox.margin>
@@ -49,6 +40,14 @@
                   <Insets top="5.0" />
                </HBox.margin>
             </TextField>
+                <Button fx:id="saveButton" mnemonicParsing="false" onAction="#onSaveAction" prefHeight="10.0" prefWidth="52.0" text="Save">
+               <HBox.margin>
+                  <Insets top="5.0" />
+               </HBox.margin></Button>
+                <Button fx:id="undoButton" mnemonicParsing="false" onAction="#onUndoAction" prefHeight="25.0" prefWidth="52.0" text="Undo">
+               <HBox.margin>
+                  <Insets top="5.0" />
+               </HBox.margin></Button>
             </HBox>
       </top>
       <center>

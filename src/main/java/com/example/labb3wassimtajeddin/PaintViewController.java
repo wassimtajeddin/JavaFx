@@ -8,9 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import java.io.File;
 
 public class PaintViewController {
 
@@ -53,14 +51,19 @@ public class PaintViewController {
 
     }
 
+
     public void onSaveAction(ActionEvent actionEvent) {
-        FileChooser fileChooser= new FileChooser();
-        fileChooser.setInitialFileName("BildensBild");
-        fileChooser.setTitle("Save as");
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPG","*.jpg"));
-    File file = fileChooser.showOpenDialog(stage);
-//   if (file!=null)
+        SVGSaver svgSaver = new SVGSaver();
+        svgSaver.start(stage);
+
+//
+//        FileChooser fileChooser= new FileChooser();
+//        fileChooser.setInitialFileName("paint.svg");
+//        fileChooser.setTitle("Save as SVG");
+//        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+//    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("SVG File","*.svg"));
+//    File file = fileChooser.showSaveDialog(stage);
+//  if (file!=null){}
     }
 
     public void onUndoAction(ActionEvent actionEvent) {
