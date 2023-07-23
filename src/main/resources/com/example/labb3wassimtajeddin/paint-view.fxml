@@ -8,54 +8,51 @@
 <?import javafx.scene.paint.*?>
 
 <BorderPane prefHeight="445.0" prefWidth="663.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.labb3wassimtajeddin.PaintViewController">
-    <BorderPane prefHeight="445.0" prefWidth="663.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
-        <right>
-            <VBox BorderPane.alignment="CENTER" />
-        </right>
-      <top>
-            <HBox spacing="10.0" BorderPane.alignment="CENTER">
+    <BorderPane>
+        <top>
+            <HBox prefWidth="567.0" spacing="10.0" BorderPane.alignment="CENTER">
                 <Button fx:id="circleButton" lineSpacing="1.0" mnemonicParsing="false" text="Circle">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
-               <HBox.margin>
-                  <Insets left="5.0" top="5.0" />
-               </HBox.margin>
-            </Button>
+                    <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                    </HBox.margin>
+                </Button>
                 <Button fx:id="rectangleButton" lineSpacing="1.0" mnemonicParsing="false" text="Rectangle">
-               <HBox.margin>
-                  <Insets top="5.0" />
-               </HBox.margin>
-            </Button>
-            <ColorPicker fx:id="colorPicker">
-               <HBox.margin>
-                  <Insets top="5.0" />
-               </HBox.margin>
-               <value>
-                  <Color />
-               </value>
-            </ColorPicker>
-            <TextField fx:id="sizeField" promptText="size">
-               <HBox.margin>
-                  <Insets top="5.0" />
-               </HBox.margin>
-            </TextField>
+                    <HBox.margin>
+                        <Insets top="5.0" />
+                    </HBox.margin>
+                </Button>
+                <ColorPicker fx:id="colorPicker">
+                    <HBox.margin>
+                        <Insets top="5.0" />
+                    </HBox.margin>
+                    <value>
+                        <Color />
+                    </value>
+                </ColorPicker>
+                <TextField fx:id="sizeField" promptText="size">
+                    <HBox.margin>
+                        <Insets top="5.0" />
+                    </HBox.margin>
+                </TextField>
                 <Button fx:id="saveButton" mnemonicParsing="false" onAction="#onSaveAction" prefHeight="10.0" prefWidth="52.0" text="Save">
-               <HBox.margin>
-                  <Insets top="5.0" />
-               </HBox.margin></Button>
+                    <HBox.margin>
+                        <Insets top="5.0" />
+                    </HBox.margin></Button>
                 <Button fx:id="undoButton" mnemonicParsing="false" onAction="#onUndoAction" prefHeight="25.0" prefWidth="52.0" text="Undo">
-               <HBox.margin>
-                  <Insets top="5.0" />
-               </HBox.margin></Button>
+                    <HBox.margin>
+                        <Insets top="5.0" />
+                    </HBox.margin></Button>
             </HBox>
-      </top>
-      <center>
-            <Canvas fx:id="canvas" height="400.0" onMouseClicked="#onCanvasClicked" width="604.0" BorderPane.alignment="CENTER" />
-      </center>
-      <cursor>
-         <Cursor fx:constant="DEFAULT" />
-      </cursor>
+        </top>
+        <center>
+            <Canvas fx:id="canvas" height="1500" onMouseClicked="#onCanvasClicked" width="1750" BorderPane.alignment="CENTER" />
+        </center>
+        <cursor>
+            <Cursor fx:constant="DEFAULT" />
+        </cursor>
     </BorderPane>
 
 </BorderPane>

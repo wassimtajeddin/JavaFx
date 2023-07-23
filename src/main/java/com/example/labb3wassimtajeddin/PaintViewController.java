@@ -48,11 +48,11 @@ public class PaintViewController {
             size = Double.parseDouble(sizeField.getText());
         graphicsContext.setFill(colorPicker.getValue());
         if (circleButton.isFocused()) {
-            graphicsContext.fillOval(mouseEvent.getSceneX(),mouseEvent.getSceneY(),size,size);
+            graphicsContext.fillOval(mouseEvent.getX(),mouseEvent.getY(),size,size);
         }
 
         else if (rectangleButton.isFocused()) {
-            graphicsContext.fillRect(mouseEvent.getSceneX(), mouseEvent.getY(), size, size);
+            graphicsContext.fillRect(mouseEvent.getX(), mouseEvent.getY(), size, size);
         }
 
 
