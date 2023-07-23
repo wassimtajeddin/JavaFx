@@ -1,4 +1,4 @@
-package com.example.labb3wassimtajeddin;
+package com.example.JavaFx;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;

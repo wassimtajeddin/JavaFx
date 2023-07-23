@@ -1,4 +1,4 @@
-package com.example.labb3wassimtajeddin;
+package com.example.JavaFx;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;

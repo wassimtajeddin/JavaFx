@@ -5,6 +5,6 @@ module com.example.labb3wassimtajeddin {
     requires javafx.swing;
 
 
-    opens com.example.labb3wassimtajeddin to javafx.fxml;
-    exports com.example.labb3wassimtajeddin;
+    opens com.example.JavaFx to javafx.fxml;
+    exports com.example.JavaFx;
 }

@@ -1,4 +1,4 @@
-package com.example.labb3wassimtajeddin;
+package com.example.JavaFx;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
