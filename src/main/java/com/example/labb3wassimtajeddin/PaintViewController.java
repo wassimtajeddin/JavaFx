@@ -42,8 +42,9 @@ public class PaintViewController {
 
     public void onCanvasClicked(MouseEvent mouseEvent) {
         double size;
+        graphicsContext.setFill(colorPicker.getValue());
         if (sizeField.getText().isEmpty())
-            size = 100;
+            size = 25;
         else
             size = Double.parseDouble(sizeField.getText());
         graphicsContext.setFill(colorPicker.getValue());
@@ -55,7 +56,9 @@ public class PaintViewController {
             graphicsContext.fillRect(mouseEvent.getX(), mouseEvent.getY(), size, size);
         }
 
-
+        else {
+            graphicsContext.fillRect(mouseEvent.getX(), mouseEvent.getY(), size, size);
+        }
     }
 
 
@@ -95,5 +98,6 @@ public class PaintViewController {
 
 
     public void onUndoAction(ActionEvent actionEvent) {
+
     }
 }
