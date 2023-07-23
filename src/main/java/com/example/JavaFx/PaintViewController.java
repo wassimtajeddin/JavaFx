@@ -9,6 +9,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -16,6 +17,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Stack;
 
 
 public class PaintViewController {
@@ -66,7 +68,7 @@ public class PaintViewController {
         saveButton.setOnAction((e) -> {
             FileChooser saveFile = new FileChooser();
             saveFile.setTitle("Save File");
-            saveFile.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG files", "*.svg"));
+            saveFile.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG files", "*.png"));
 
             File file = saveFile.showSaveDialog(stage);
             System.out.println("is file null ? " + file);
@@ -98,6 +100,58 @@ public class PaintViewController {
 
 
     public void onUndoAction(ActionEvent actionEvent) {
+        Stack<Shape> undoHistory = new Stack<>();
+        Stack<Shape> redoHistory = new Stack<>();
+        Rectangle rectangle = new Rectangle();
+        Circle circle = new Circle();
+        undoHistory.push(new Circle(circle.getCenterX(), circle.getCenterY(), circle.getRadius()));
+        undoHistory.push(new Rectangle(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight()));
+        undoButton.setOnAction(e->{
+            if(!undoHistory.empty()){
+                graphicsContext.clearRect(0, 0, 1750, 1500);
+                Shape removedShape = undoHistory.lastElement();
+                 if(removedShape.getClass() == Rectangle.class) {
+                    Rectangle tempRect = (Rectangle) removedShape;
+                    tempRect.setFill(graphicsContext.getFill());
+                    tempRect.setStroke(graphicsContext.getStroke());
+                    tempRect.setStrokeWidth(graphicsContext.getLineWidth());
+                     redoHistory.push(new Rectangle(tempRect.getX(), tempRect.getY(), tempRect.getWidth(), tempRect.getHeight()));
+                 }
+                else if(removedShape.getClass() == Circle.class) {
+                    Circle tempCirc = (Circle) removedShape;
+                    tempCirc.setStrokeWidth(graphicsContext.getLineWidth());
+                    tempCirc.setFill(graphicsContext.getFill());
+                    tempCirc.setStroke(graphicsContext.getStroke());
+                     redoHistory.push(new Circle(tempCirc.getCenterX(), tempCirc.getCenterY(), tempCirc.getRadius()));
+                 }
+
+                for(int i=0; i < undoHistory.size(); i++) {
+                    Shape shape = undoHistory.elementAt(i);
+                     if(shape.getClass() == Rectangle.class) {
+                        Rectangle temp = (Rectangle) shape;
+                        graphicsContext.setLineWidth(temp.getStrokeWidth());
+                        graphicsContext.setStroke(temp.getStroke());
+                        graphicsContext.setFill(temp.getFill());
+                        graphicsContext.fillRect(temp.getX(), temp.getY(), temp.getWidth(), temp.getHeight());
+                        graphicsContext.strokeRect(temp.getX(), temp.getY(), temp.getWidth(), temp.getHeight());
+                    }
+                    else if(shape.getClass() == Circle.class) {
+                        Circle temp = (Circle) shape;
+                        graphicsContext.setLineWidth(temp.getStrokeWidth());
+                        graphicsContext.setStroke(temp.getStroke());
+                        graphicsContext.setFill(temp.getFill());
+                        graphicsContext.fillOval(temp.getCenterX(), temp.getCenterY(), temp.getRadius(), temp.getRadius());
+                        graphicsContext.strokeOval(temp.getCenterX(), temp.getCenterY(), temp.getRadius(), temp.getRadius());
+                    }
+                }
+            } else {
+                System.out.println("there is no action to undo");
+            }
+        });
+
+
+
+
 
     }
 }
