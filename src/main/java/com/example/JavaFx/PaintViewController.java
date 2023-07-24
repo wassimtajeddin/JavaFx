@@ -1,18 +1,17 @@
 package com.example.JavaFx;
 
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.*;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import javax.imageio.ImageIO;
 import java.awt.image.RenderedImage;
 import java.io.File;
@@ -31,6 +30,8 @@ public class PaintViewController {
     public Stage stage;
     public ColorPicker colorPicker;
     public TextField sizeField;
+    Stack<Shape> undoHistory = new Stack<>();
+    Stack<Shape> redoHistory = new Stack<>();
 
 
     public void setStage(Stage stage) {
@@ -38,33 +39,64 @@ public class PaintViewController {
     }
 
     public void initialize(){
-    graphicsContext = canvas.getGraphicsContext2D();
+        graphicsContext = canvas.getGraphicsContext2D();
 
-}
+    }
 
-    public void onCanvasClicked(MouseEvent mouseEvent) {
+    public void onCanvasClicked() {
         double size;
         graphicsContext.setFill(colorPicker.getValue());
         if (sizeField.getText().isEmpty())
             size = 25;
         else
             size = Double.parseDouble(sizeField.getText());
-        graphicsContext.setFill(colorPicker.getValue());
-        if (circleButton.isFocused()) {
-            graphicsContext.fillOval(mouseEvent.getX(),mouseEvent.getY(),size,size);
-        }
-
-        else if (rectangleButton.isFocused()) {
-            graphicsContext.fillRect(mouseEvent.getX(), mouseEvent.getY(), size, size);
-        }
-
-        else {
-            graphicsContext.fillRect(mouseEvent.getX(), mouseEvent.getY(), size, size);
-        }
-    }
+        graphicsContext.setLineWidth(1);
 
 
-    public void onSaveAction(ActionEvent actionEvent) {
+        Rectangle rectangle = new Rectangle();
+        Circle circle = new Circle();
+
+
+
+        canvas.setOnMousePressed(e->{
+
+            if(rectangleButton.isFocused()) {
+                rectangle.setWidth(Math.abs((e.getX() - rectangle.getX())));
+                rectangle.setHeight(Math.abs((e.getY() - rectangle.getY())));
+
+
+                graphicsContext.fillRect(e.getX(), e.getY(), size,size);
+
+                undoHistory.push(new Rectangle(e.getX(), e.getY(),size, size));
+
+            }
+            else if(circleButton.isFocused()) {
+                circle.setRadius((Math.abs(e.getX() - circle.getCenterX()) + Math.abs(e.getY() - circle.getCenterY())) / 2);
+
+                if(circle.getCenterX() > e.getX()) {
+                    circle.setCenterX(e.getX());
+                }
+                if(circle.getCenterY() > e.getY()) {
+                    circle.setCenterY(e.getY());
+                }
+
+                graphicsContext.fillOval(e.getX(), e.getY(), size, size);
+
+                undoHistory.push(new Circle(e.getX(), e.getY(), size));
+            }
+            redoHistory.clear();
+            Shape lastUndo = undoHistory.lastElement();
+            lastUndo.setFill(graphicsContext.getFill());
+
+        });
+
+        colorPicker.setOnAction(e->{
+            graphicsContext.setFill(colorPicker.getValue());
+        });}
+
+
+
+    public void onSaveAction() {
         saveButton.setOnAction((e) -> {
             FileChooser saveFile = new FileChooser();
             saveFile.setTitle("Save File");
@@ -86,48 +118,37 @@ public class PaintViewController {
         });
     }
 
-        //        SVGSaver svgSaver = new SVGSaver();
-//        svgSaver.start(stage);
+    public void onUndoAction() {
 
-//
-//        FileChooser fileChooser= new FileChooser();
-//        fileChooser.setInitialFileName("paint.svg");
-//        fileChooser.setTitle("Save as SVG");
-//        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-//    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("SVG File","*.svg"));
-//    File file = fileChooser.showSaveDialog(stage);
-//  if (file!=null){}
-
-
-    public void onUndoAction(ActionEvent actionEvent) {
-        Stack<Shape> undoHistory = new Stack<>();
-        Stack<Shape> redoHistory = new Stack<>();
-        Rectangle rectangle = new Rectangle();
-        Circle circle = new Circle();
-        undoHistory.push(new Circle(circle.getCenterX(), circle.getCenterY(), circle.getRadius()));
-        undoHistory.push(new Rectangle(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight()));
         undoButton.setOnAction(e->{
             if(!undoHistory.empty()){
-                graphicsContext.clearRect(0, 0, 1750, 1500);
+                graphicsContext.clearRect(0, 0, 1080, 790);
                 Shape removedShape = undoHistory.lastElement();
-                 if(removedShape.getClass() == Rectangle.class) {
+
+                if(removedShape.getClass() == Rectangle.class) {
                     Rectangle tempRect = (Rectangle) removedShape;
                     tempRect.setFill(graphicsContext.getFill());
                     tempRect.setStroke(graphicsContext.getStroke());
                     tempRect.setStrokeWidth(graphicsContext.getLineWidth());
-                     redoHistory.push(new Rectangle(tempRect.getX(), tempRect.getY(), tempRect.getWidth(), tempRect.getHeight()));
-                 }
+                    redoHistory.push(new Rectangle(tempRect.getX(), tempRect.getY(), tempRect.getWidth(), tempRect.getHeight()));
+                }
                 else if(removedShape.getClass() == Circle.class) {
                     Circle tempCirc = (Circle) removedShape;
                     tempCirc.setStrokeWidth(graphicsContext.getLineWidth());
                     tempCirc.setFill(graphicsContext.getFill());
                     tempCirc.setStroke(graphicsContext.getStroke());
-                     redoHistory.push(new Circle(tempCirc.getCenterX(), tempCirc.getCenterY(), tempCirc.getRadius()));
-                 }
+                    redoHistory.push(new Circle(tempCirc.getCenterX(), tempCirc.getCenterY(), tempCirc.getRadius()));
+                }
+                Shape lastRedo = redoHistory.lastElement();
+                lastRedo.setFill(removedShape.getFill());
+                lastRedo.setStroke(removedShape.getStroke());
+                lastRedo.setStrokeWidth(removedShape.getStrokeWidth());
+                undoHistory.pop();
 
                 for(int i=0; i < undoHistory.size(); i++) {
                     Shape shape = undoHistory.elementAt(i);
-                     if(shape.getClass() == Rectangle.class) {
+
+                    if(shape.getClass() == Rectangle.class) {
                         Rectangle temp = (Rectangle) shape;
                         graphicsContext.setLineWidth(temp.getStrokeWidth());
                         graphicsContext.setStroke(temp.getStroke());
@@ -143,11 +164,13 @@ public class PaintViewController {
                         graphicsContext.fillOval(temp.getCenterX(), temp.getCenterY(), temp.getRadius(), temp.getRadius());
                         graphicsContext.strokeOval(temp.getCenterX(), temp.getCenterY(), temp.getRadius(), temp.getRadius());
                     }
+
                 }
             } else {
                 System.out.println("there is no action to undo");
             }
         });
+
 
 
 
