@@ -28,8 +28,9 @@ public class PaintViewController {
     public Button undoButton;
     public GraphicsContext graphicsContext;
     public Stage stage;
-    public ColorPicker colorPicker;
-    public TextField sizeField;
+    public ColorPicker colorPicker = new ColorPicker();
+    public TextField sizeField = new TextField();
+    double size;
     Stack<Shape> undoHistory = new Stack<>();
     Stack<Shape> redoHistory = new Stack<>();
 
@@ -42,58 +43,55 @@ public class PaintViewController {
         graphicsContext = canvas.getGraphicsContext2D();
 
     }
+    public double size(){
 
-    public void onCanvasClicked() {
-        double size;
-        graphicsContext.setFill(colorPicker.getValue());
         if (sizeField.getText().isEmpty())
             size = 25;
         else
             size = Double.parseDouble(sizeField.getText());
-        graphicsContext.setLineWidth(1);
+        return size;
+    }
+
+    public void onCanvasClicked() {
 
 
         Rectangle rectangle = new Rectangle();
         Circle circle = new Circle();
 
+        graphicsContext.setFill(colorPicker.getValue());
 
+        graphicsContext.setLineWidth(1);
 
-        canvas.setOnMousePressed(e->{
+        canvas.setOnMousePressed(e -> {
 
-            if(rectangleButton.isFocused()) {
+            if (rectangleButton.isFocused()) {
                 rectangle.setWidth(Math.abs((e.getX() - rectangle.getX())));
                 rectangle.setHeight(Math.abs((e.getY() - rectangle.getY())));
 
 
-                graphicsContext.fillRect(e.getX(), e.getY(), size,size);
+                graphicsContext.fillRect(e.getX(), e.getY(), size(), size());
 
-                undoHistory.push(new Rectangle(e.getX(), e.getY(),size, size));
+                undoHistory.push(new Rectangle(e.getX(), e.getY(), size(), size()));
 
-            }
-            else if(circleButton.isFocused()) {
+            } else if (circleButton.isFocused()) {
                 circle.setRadius((Math.abs(e.getX() - circle.getCenterX()) + Math.abs(e.getY() - circle.getCenterY())) / 2);
 
-                if(circle.getCenterX() > e.getX()) {
+                if (circle.getCenterX() > e.getX()) {
                     circle.setCenterX(e.getX());
                 }
-                if(circle.getCenterY() > e.getY()) {
+                if (circle.getCenterY() > e.getY()) {
                     circle.setCenterY(e.getY());
                 }
 
-                graphicsContext.fillOval(e.getX(), e.getY(), size, size);
+                graphicsContext.fillOval(e.getX(), e.getY(), size(), size());
 
-                undoHistory.push(new Circle(e.getX(), e.getY(), size));
+                undoHistory.push(new Circle(e.getX(), e.getY(), size()));
             }
             redoHistory.clear();
             Shape lastUndo = undoHistory.lastElement();
             lastUndo.setFill(graphicsContext.getFill());
 
-        });
-
-        colorPicker.setOnAction(e->{
-            graphicsContext.setFill(colorPicker.getValue());
         });}
-
 
 
     public void onSaveAction() {
@@ -101,9 +99,8 @@ public class PaintViewController {
             FileChooser saveFile = new FileChooser();
             saveFile.setTitle("Save File");
             saveFile.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG files", "*.png"));
-
             File file = saveFile.showSaveDialog(stage);
-            System.out.println("is file null ? " + file);
+            System.out.println("Success " + file);
             if (file != null) {
                 try {
                     WritableImage writableImage = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
@@ -122,7 +119,7 @@ public class PaintViewController {
 
         undoButton.setOnAction(e->{
             if(!undoHistory.empty()){
-                graphicsContext.clearRect(0, 0, 1080, 790);
+                graphicsContext.clearRect(0, 0, 1750, 1500);
                 Shape removedShape = undoHistory.lastElement();
 
                 if(removedShape.getClass() == Rectangle.class) {
@@ -150,19 +147,13 @@ public class PaintViewController {
 
                     if(shape.getClass() == Rectangle.class) {
                         Rectangle temp = (Rectangle) shape;
-                        graphicsContext.setLineWidth(temp.getStrokeWidth());
-                        graphicsContext.setStroke(temp.getStroke());
                         graphicsContext.setFill(temp.getFill());
                         graphicsContext.fillRect(temp.getX(), temp.getY(), temp.getWidth(), temp.getHeight());
-                        graphicsContext.strokeRect(temp.getX(), temp.getY(), temp.getWidth(), temp.getHeight());
                     }
                     else if(shape.getClass() == Circle.class) {
                         Circle temp = (Circle) shape;
-                        graphicsContext.setLineWidth(temp.getStrokeWidth());
-                        graphicsContext.setStroke(temp.getStroke());
                         graphicsContext.setFill(temp.getFill());
                         graphicsContext.fillOval(temp.getCenterX(), temp.getCenterY(), temp.getRadius(), temp.getRadius());
-                        graphicsContext.strokeOval(temp.getCenterX(), temp.getCenterY(), temp.getRadius(), temp.getRadius());
                     }
 
                 }
