@@ -38,7 +38,7 @@ public class PaintViewController {
     public ColorPicker colorPicker = new ColorPicker();
     public static Stack<Shape> undoHistory = new Stack<>();
     public static Stack<Shape> redoHistory = new Stack<>();
-    public static TextField sizeField;
+    public TextField sizeField;
 
     public void setStage(Stage stage) {
         PaintViewController.stage = stage;
@@ -57,9 +57,9 @@ public class PaintViewController {
 
         canvas.setOnMousePressed(e -> {
             if (rectangleButton.isFocused()) {
-                drawRectangle(e);
+                drawRectangle(e,sizeField);
             } else if (circleButton.isFocused()) {
-                drawCircle(e);
+                drawCircle(e,sizeField);
             }
             clearRedoHistory();
             setLastUndoFill();

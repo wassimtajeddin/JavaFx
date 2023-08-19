@@ -1,7 +1,4 @@
 package com.example.JavaFx;
-
-
-
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
@@ -11,21 +8,24 @@ import static com.example.JavaFx.PaintViewController.*;
 
 public class DrawShape {
 
-    public static double size(){
-        double size;
+//    public static double size(){
+//        double size;
+//
+//        if (sizeField.getText().isEmpty())
+//            size = 25;
+//        else
+//            size = Double.parseDouble(sizeField.getText());
+//        return size;
+//    }
 
-        if (sizeField.getText().isEmpty())
-            size = 25;
-        else
-            size = Double.parseDouble(sizeField.getText());
-        return size;
-    }
 
-
-    public static void drawRectangle(MouseEvent event) {
+    public static void drawRectangle(MouseEvent event, TextField sizeField) {
          Rectangle rectangle = new Rectangle();
 
-        double size = size();
+
+        double size = 25;
+        if (!sizeField.getText().isEmpty())
+            size = Double.parseDouble(sizeField.getText());
         rectangle.setWidth(Math.abs((event.getX() - rectangle.getX())));
         rectangle.setHeight(Math.abs((event.getY() - rectangle.getY())));
 
@@ -34,9 +34,11 @@ public class DrawShape {
         undoHistory.push(new Rectangle(event.getX(), event.getY(), size, size));
     }
 
-    public static void drawCircle(MouseEvent event) {
+    public static void drawCircle(MouseEvent event , TextField sizeField) {
         Circle circle = new Circle();
-        double size = size();
+        double size = 25;
+        if (!sizeField.getText().isEmpty())
+            size = Double.parseDouble(sizeField.getText());
         double centerX = Math.min(event.getX(), circle.getCenterX());
         double centerY = Math.min(event.getY(), circle.getCenterY());
         circle.setRadius((Math.abs(event.getX() - circle.getCenterX()) + Math.abs(event.getY() - circle.getCenterY())) / 2);
