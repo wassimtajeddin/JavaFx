@@ -1,6 +1,7 @@
 package com.example.JavaFx;
 
 import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.image.WritableImage;
 import javafx.stage.FileChooser;
 import javax.imageio.ImageIO;
@@ -8,23 +9,22 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 
-import static com.example.JavaFx.PaintViewController.canvas;
 import static com.example.JavaFx.PaintViewController.stage;
 
 public class SaveManager {
 
-    public static void saveToFile() {
+    public static void saveToFile(Canvas canvas) {
         FileChooser saveFile = new FileChooser();
         saveFile.setTitle("Save File");
         saveFile.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG files", "*.png"));
         File file = saveFile.showSaveDialog(stage);
 
         if (file != null) {
-            saveCanvasToFile(file);
+            saveCanvasToFile(file,canvas);
         }
     }
 
-    public static void saveCanvasToFile(File file) {
+    public static void saveCanvasToFile(File file, Canvas canvas) {
         try {
             WritableImage writableImage = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
             canvas.snapshot(null, writableImage);

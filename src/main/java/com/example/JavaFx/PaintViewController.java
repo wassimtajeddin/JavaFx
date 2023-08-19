@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Stack;
 
+
 import static com.example.JavaFx.DrawShape.drawCircle;
 import static com.example.JavaFx.DrawShape.drawRectangle;
 import static com.example.JavaFx.SaveManager.saveToFile;
@@ -27,7 +28,7 @@ import static com.example.JavaFx.UndoManager.undoLastAction;
 
 public class PaintViewController {
 
-    public static Canvas canvas;
+    public Canvas canvas;
     public Button circleButton;
     public Button rectangleButton;
     public Button saveButton;
@@ -35,15 +36,12 @@ public class PaintViewController {
     public static GraphicsContext graphicsContext;
     public static Stage stage;
     public ColorPicker colorPicker = new ColorPicker();
-    public TextField sizeField = new TextField();
-
-
     public static Stack<Shape> undoHistory = new Stack<>();
     public static Stack<Shape> redoHistory = new Stack<>();
-
+    public static TextField sizeField;
 
     public void setStage(Stage stage) {
-        this.stage = stage;
+        PaintViewController.stage = stage;
     }
 
     public void initialize(){
@@ -54,15 +52,12 @@ public class PaintViewController {
 
 
     public void onCanvasClicked() {
-
-
-
         graphicsContext.setFill(colorPicker.getValue());
         graphicsContext.setLineWidth(1);
 
         canvas.setOnMousePressed(e -> {
             if (rectangleButton.isFocused()) {
-              drawRectangle(e);
+                drawRectangle(e);
             } else if (circleButton.isFocused()) {
                 drawCircle(e);
             }
@@ -70,7 +65,6 @@ public class PaintViewController {
             setLastUndoFill();
         });
     }
-
 
     private void clearRedoHistory() {
         redoHistory.clear();
@@ -81,20 +75,12 @@ public class PaintViewController {
         lastUndo.setFill(graphicsContext.getFill());
     }
 
-
-
     public void onSaveAction() {
-        saveButton.setOnAction(e -> saveToFile());
+        saveButton.setOnAction(e -> saveToFile(canvas));
     }
-
-
 
     public void onUndoAction() {
         undoButton.setOnAction(e -> undoLastAction());
     }
-
-
-
-
 }
 
