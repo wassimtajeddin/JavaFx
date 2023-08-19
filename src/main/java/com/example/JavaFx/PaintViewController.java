@@ -116,56 +116,76 @@ public class PaintViewController {
     }
 
     public void onUndoAction() {
+        undoButton.setOnAction(e -> undoLastAction());
+    }
 
-        undoButton.setOnAction(e->{
-            if(!undoHistory.empty()){
-                graphicsContext.clearRect(0, 0, 1750, 1500);
-                Shape removedShape = undoHistory.lastElement();
+    private void undoLastAction() {
+        if (!undoHistory.empty()) {
+            graphicsContext.clearRect(0, 0, 1750, 1500);
+            Shape removedShape = undoHistory.lastElement();
 
-                if(removedShape.getClass() == Rectangle.class) {
-                    Rectangle tempRect = (Rectangle) removedShape;
-                    tempRect.setFill(graphicsContext.getFill());
-                    tempRect.setStroke(graphicsContext.getStroke());
-                    tempRect.setStrokeWidth(graphicsContext.getLineWidth());
-                    redoHistory.push(new Rectangle(tempRect.getX(), tempRect.getY(), tempRect.getWidth(), tempRect.getHeight()));
-                }
-                else if(removedShape.getClass() == Circle.class) {
-                    Circle tempCirc = (Circle) removedShape;
-                    tempCirc.setStrokeWidth(graphicsContext.getLineWidth());
-                    tempCirc.setFill(graphicsContext.getFill());
-                    tempCirc.setStroke(graphicsContext.getStroke());
-                    redoHistory.push(new Circle(tempCirc.getCenterX(), tempCirc.getCenterY(), tempCirc.getRadius()));
-                }
-                Shape lastRedo = redoHistory.lastElement();
-                lastRedo.setFill(removedShape.getFill());
-                lastRedo.setStroke(removedShape.getStroke());
-                lastRedo.setStrokeWidth(removedShape.getStrokeWidth());
-                undoHistory.pop();
-
-                for(int i=0; i < undoHistory.size(); i++) {
-                    Shape shape = undoHistory.elementAt(i);
-
-                    if(shape.getClass() == Rectangle.class) {
-                        Rectangle temp = (Rectangle) shape;
-                        graphicsContext.setFill(temp.getFill());
-                        graphicsContext.fillRect(temp.getX(), temp.getY(), temp.getWidth(), temp.getHeight());
-                    }
-                    else if(shape.getClass() == Circle.class) {
-                        Circle temp = (Circle) shape;
-                        graphicsContext.setFill(temp.getFill());
-                        graphicsContext.fillOval(temp.getCenterX(), temp.getCenterY(), temp.getRadius(), temp.getRadius());
-                    }
-
-                }
-            } else {
-                System.out.println("there is no action to undo");
+            if (removedShape.getClass() == Rectangle.class) {
+                undoRectangleAction((Rectangle) removedShape);
+            } else if (removedShape.getClass() == Circle.class) {
+                undoCircleAction((Circle) removedShape);
             }
-        });
+            Shape lastRedo = redoHistory.lastElement();
+            lastRedo.setFill(removedShape.getFill());
+            lastRedo.setStroke(removedShape.getStroke());
+            lastRedo.setStrokeWidth(removedShape.getStrokeWidth());
+            undoHistory.pop();
 
+            for(int i=0; i < undoHistory.size(); i++) {
+                Shape shape = undoHistory.elementAt(i);
 
+                if(shape.getClass() == Rectangle.class) {
+                    undoOneRectangleShape();
+                }
+                else if(shape.getClass() == Circle.class) {
+                    undoOneCircleShape();
+                }
 
+            }
 
+        } else {
+            System.out.println("There is no action to undo");
+        }
+    }
+    private void undoOneRectangleShape(){
+        for(int i=0; i < undoHistory.size(); i++) {
+            Shape shape = undoHistory.elementAt(i);
+            Rectangle temp = (Rectangle) shape;
+            graphicsContext.setFill(temp.getFill());
+            graphicsContext.fillRect(temp.getX(), temp.getY(), temp.getWidth(), temp.getHeight());
+        }
+
+    }
+    private void undoOneCircleShape() {
+        for (int i = 0; i < undoHistory.size(); i++) {
+            Shape shape = undoHistory.elementAt(i);
+            Circle temp = (Circle) shape;
+            graphicsContext.setFill(temp.getFill());
+            graphicsContext.fillOval(temp.getCenterX(), temp.getCenterY(), temp.getRadius(), temp.getRadius());
+
+        }
+    }
+    private void undoRectangleAction(Rectangle removedRectangle) {
+        removedRectangle.setFill(graphicsContext.getFill());
+        removedRectangle.setStroke(graphicsContext.getStroke());
+        removedRectangle.setStrokeWidth(graphicsContext.getLineWidth());
+        redoHistory.push(new Rectangle(removedRectangle.getX(), removedRectangle.getY(), removedRectangle.getWidth(), removedRectangle.getHeight()));
 
 
     }
+
+    private void undoCircleAction(Circle removedCircle) {
+        removedCircle.setStrokeWidth(graphicsContext.getLineWidth());
+        removedCircle.setFill(graphicsContext.getFill());
+        removedCircle.setStroke(graphicsContext.getStroke());
+        redoHistory.push(new Circle(removedCircle.getCenterX(), removedCircle.getCenterY(), removedCircle.getRadius()));
+
+    }
+
+
 }
+
