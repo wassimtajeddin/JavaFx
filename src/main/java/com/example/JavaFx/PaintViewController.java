@@ -1,25 +1,12 @@
 package com.example.JavaFx;
-
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javax.imageio.ImageIO;
-import java.awt.image.RenderedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.Stack;
-
-
 import static com.example.JavaFx.DrawShape.drawCircle;
 import static com.example.JavaFx.DrawShape.drawRectangle;
 import static com.example.JavaFx.SaveManager.saveToFile;

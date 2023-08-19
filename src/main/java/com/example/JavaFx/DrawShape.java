@@ -8,17 +8,6 @@ import static com.example.JavaFx.PaintViewController.*;
 
 public class DrawShape {
 
-//    public static double size(){
-//        double size;
-//
-//        if (sizeField.getText().isEmpty())
-//            size = 25;
-//        else
-//            size = Double.parseDouble(sizeField.getText());
-//        return size;
-//    }
-
-
     public static void drawRectangle(MouseEvent event, TextField sizeField) {
          Rectangle rectangle = new Rectangle();
 
