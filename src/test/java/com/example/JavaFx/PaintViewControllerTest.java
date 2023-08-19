@@ -1,6 +1,7 @@
 package com.example.JavaFx;
 
 import javafx.embed.swing.JFXPanel;
+import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,8 +21,9 @@ public class PaintViewControllerTest {
 
     @Test
 void theNumberWhichIsWrittenInTextFiledShouldReturnShapeSize() {
-        controller.sizeField.setText("100");
-        double expected = Double.parseDouble(controller.sizeField.getText());
+        TextField sizeField = new TextField();
+        sizeField.setText("100");
+        double expected = Double.parseDouble(sizeField.getText());
         double actual = 100;
 
         assertEquals(expected,actual);

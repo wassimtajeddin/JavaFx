@@ -38,7 +38,7 @@ public class PaintViewController {
     public ColorPicker colorPicker = new ColorPicker();
     public static Stack<Shape> undoHistory = new Stack<>();
     public static Stack<Shape> redoHistory = new Stack<>();
-    public TextField sizeField;
+    public TextField sizeField = new TextField();
 
     public void setStage(Stage stage) {
         PaintViewController.stage = stage;
