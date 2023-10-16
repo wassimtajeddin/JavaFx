@@ -36,8 +36,6 @@ public class PaintViewController {
 
     }
 
-
-
     public void onCanvasClicked() {
         graphicsContext.setFill(colorPicker.getValue());
         graphicsContext.setLineWidth(1);
